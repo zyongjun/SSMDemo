@@ -12,12 +12,22 @@
     <select id="getDeveloper" resultType="DeveloperModel" parameterType="String">
         select * from developer where id = #{developerId}
     </select>
+    <insert id="addDeveloper">
+      insert
+      ignore
+      into
+      developer
+      (name,site,avatar)
+      values
+      (#{name},#{site},#{avatar})
+    </insert>
     <update id="updateDeveloper">
         update
         developer
         set
-        name = #{name}
-        site = #{site}
+        name = #{name},
+        site = #{site},
+        avatar = #{avatar}
         where
         id = #{id}
     </update>
@@ -26,6 +36,6 @@
         from
         developer
         where
-        id = #{developerId}
+        id = #{id}
     </delete>
 </mapper>

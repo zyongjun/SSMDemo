@@ -18,12 +18,17 @@ public class DevelopService {
         return developerDao.getAllDevelopers();
     }
 
+    public boolean addDeveloper(DeveloperModel developer){
+        return developerDao.addDeveloper(developer.getName(),developer.getSite(),developer.getAvatar());
+    }
+
     public DeveloperModel getDeveloper(String id) {
+        System.out.println("--service id---"+id);
         return developerDao.getDeveloper(id);
     }
 
-    public boolean updateDeveloper(String id,String name,String site,String avatar){
-        return developerDao.updateDeveloper(id,name,site,avatar);
+    public boolean updateDeveloper(DeveloperModel developerModel){
+        return developerDao.updateDeveloper(String.valueOf(developerModel.getId()),developerModel.getName(),developerModel.getSite(),developerModel.getAvatar());
     }
 
     public boolean deleteDeveloper(String id) {

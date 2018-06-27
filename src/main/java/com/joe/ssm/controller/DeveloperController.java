@@ -5,10 +5,7 @@ import com.joe.ssm.model.ResultModel;
 import com.joe.ssm.service.DevelopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,11 +39,12 @@ public class DeveloperController {
         return resultModel;
     }
 
-    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    @RequestMapping(value = "/api/get",method = RequestMethod.GET)
     @ResponseBody
-    public ResultModel getDeveloper(String developerId) {
+    public ResultModel getDeveloper(String id) {
+        System.out.println("--------"+id);
         ResultModel resultModel = new ResultModel();
-        DeveloperModel developerModel = developService.getDeveloper(developerId);
+        DeveloperModel developerModel = developService.getDeveloper(id);
         if (developerModel != null) {
             resultModel.setSuccess();
             resultModel.setData(developerModel);
@@ -56,12 +54,24 @@ public class DeveloperController {
         return resultModel;
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/add",method = RequestMethod.POST)
     @ResponseBody
-    public ResultModel updateDeveloper(@RequestParam("id")String id,@RequestParam("name")String name,
-                                       @RequestParam("site")String site,@RequestParam("avatar")String avatar){
+    public ResultModel addDeveloper(DeveloperModel developer){
         ResultModel resultModel = new ResultModel();
-        if(developService.updateDeveloper(id,name,site,avatar)){
+        if(developService.addDeveloper(developer)){
+            resultModel.setSuccess();
+            resultModel.setData(developer);
+        }else{
+            resultModel.setFail();
+        }
+        return resultModel;
+    }
+
+    @RequestMapping(value = "/api/update",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultModel updateDeveloper(DeveloperModel developerModel){
+        ResultModel resultModel = new ResultModel();
+        if(developService.updateDeveloper(developerModel)){
             resultModel.setSuccess();
             resultModel.setData(true);
         }else{
@@ -70,9 +80,9 @@ public class DeveloperController {
         return resultModel;
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @RequestMapping(value = "/api/delete/{id}",method = RequestMethod.DELETE)
     @ResponseBody
-    public ResultModel deleteDeveloper(@RequestParam("id")String id){
+    public ResultModel deleteDeveloper(@PathVariable("id")String id){
         ResultModel resultModel = new ResultModel();
         if (developService.deleteDeveloper(id)) {
             resultModel.setSuccess();
