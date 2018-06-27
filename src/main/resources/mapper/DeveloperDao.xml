@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.joe.ssm.dao.DeveloperDao">
+
+    <select id="getAllDevelopers" resultType="DeveloperModel">
+        SELECT
+        *
+        FROM
+        developer
+    </select>
+    <select id="getDeveloper" resultType="DeveloperModel" parameterType="String">
+        select * from developer where id = #{developerId}
+    </select>
+    <update id="updateDeveloper">
+        update
+        developer
+        set
+        name = #{name}
+        site = #{site}
+        where
+        id = #{id}
+    </update>
+    <delete id="deleteDeveloper" parameterType="String">
+        delete
+        from
+        developer
+        where
+        id = #{developerId}
+    </delete>
+</mapper>
